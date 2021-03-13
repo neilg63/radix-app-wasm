@@ -1,0 +1,175 @@
+$min-tablet-width: 600px;
+$min-desktop-width: 900px;
+
+$color-fg: white;
+$color-bg: black;
+$blue-fg: #99ccff;
+$green-fg: #99ffcc;
+$red-fg: #ff99cc;
+$yellow-fg: #ffff66;
+
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poiret+One&display=swap");
+
+html {
+  font-size: 2.5vw;
+  @media (min-width: $min-tablet-width) {
+    font-size: 2vw;
+  }
+
+  @media (min-width: $min-desktop-width) {
+    font-size: 1.5vw;
+  }
+}
+
+body {
+  background-color: $color-bg;
+  color: $color-fg;
+  font-family: "Poiret One", cursive;
+}
+
+#app {
+  margin: 0 auto;
+  text-align: center;
+  a {
+    color: $yellow-fg;
+  }
+  h1,
+  h2,
+  nav {
+    font-family: "Fredoka One", cursive;
+  }
+}
+
+#nav {
+  margin: 0.75em auto;
+  a {
+    text-decoration: none;
+    font-size: 1.25rem;
+    user-select: none;
+  }
+}
+
+body {
+  margin: 0 auto;
+  position: relative;
+}
+
+.console {
+  padding: 2vw;
+  margin: 0 auto;
+  position: relative;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  max-width: 50em;
+
+  .input-panel {
+    .expression-input {
+      width: 100%;
+      &.large {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+    flex-flow: row nowrap;
+
+    justify-content: center;
+    align-items: center;
+    &.values {
+      margin: 1em auto;
+      h3 {
+        margin: 1em;
+        padding: 0.5em;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        letter-spacing: 0.125em;
+      }
+
+      .from-value {
+        color: $blue-fg;
+      }
+
+      .to-value {
+        color: $green-fg;
+      }
+      .dec-val {
+        border: dashed $red-fg 1px;
+      }
+      .rad-val {
+        border: dashed $green-fg 1px;
+        border-radius: 1.5em;
+        min-width: 3em;
+      }
+      .fraction {
+        display: grid;
+        &.has-whole {
+          grid-template-columns: 1fr 1fr;
+        }
+        &.simple {
+          grid-template-rows: 1fr 1fr;
+        }
+        span {
+          display: flex;
+          position: relative;
+          justify-content: center;
+          align-items: center;
+          &.whole {
+            font-size: 1.5em;
+            padding-right: 0.5em;
+            grid-area: 1 / 1 / span 2 / span 1;
+          }
+          &.numerator {
+            border-bottom: solid 1px $color-fg;
+          }
+        }
+      }
+    }
+  }
+
+  h1 {
+    .p-splitbutton {
+      margin: 0 0.5em;
+    }
+  }
+
+  .selector {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-items: center;
+    .p-button {
+      white-space: nowrap;
+      height: 2rem;
+      .long {
+        font-size: 0.8em;
+      }
+      .short {
+        font-size: 1.2em;
+      }
+    }
+    @media (min-width: $min-desktop-width) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .radix-options {
+    margin: 1em auto;
+  }
+  .toggle-bases {
+    margin: 0.5em;
+    .p-button-icon {
+      transform: rotate(90deg);
+      transition: transform 0.75s ease-in-out;
+    }
+    &:hover {
+      .p-button-icon {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
