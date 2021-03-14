@@ -33,14 +33,17 @@
           <span class="denominator">{{radixFracVal.denominator}}</span>
         </h3>
       </div>
+      <aside class="help">
+        <p v-html="helpText"></p>
+      </aside>
   </section>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent, computed, onMounted, reactive } from 'vue';
 import { RadixEngine } from '@/engine/radix';
-import { radixOpts, matchRadixLabel } from '@/settings/options';
-import { buildBasePatternStr, evaluateExpression, randomSourceString } from '@/services/funcs';
+import { radixOpts, matchRadixLabel, matchHelpText } from '@/settings/options';
+import { buildBasePatternStr, convertToDozenalNotation, evaluateExpression, randomSourceString, sanitizeRadixSource } from '@/services/funcs';
 
 export default defineComponent({
   name: 'Console',
@@ -61,7 +64,8 @@ export default defineComponent({
     })
 
     const decVal = computed(() => {
-      return loaded.value? evaluateExpression(sourceStr.value, fromBase.value, engine) : singleDecVal.value;
+      const sanitizedSource = sanitizeRadixSource(sourceStr.value, fromBase.value);
+      return loaded.value? evaluateExpression(sanitizedSource, fromBase.value, engine) : singleDecVal.value;
     })
 
     const decValFormatted = computed(() => {
@@ -161,11 +165,12 @@ export default defineComponent({
     onMounted(() => {
       import("../wasm/radix/radix.js").then((exports) => {
         engine = new RadixEngine(exports);
+        engine.applyDozenalNotation = true;
         loaded.value = engine.loaded;
       });
     });
-
-    return { engine, fromBase, toBase, fromRadixItems, toRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel }
+    const helpText = computed(() => matchHelpText(fromBase.value) );
+    return { engine, fromBase, toBase, fromRadixItems, toRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText }
   },
   methods: {
     invert() {
@@ -175,6 +180,19 @@ export default defineComponent({
       this.toBase = this.fromBase;
       this.fromBase = toBase;
     },
+    cleanInput() {
+      switch (this.fromBase) {
+        case 12:
+          this.sourceStr = convertToDozenalNotation(this.sourceStr);       
+          break;
+      }
+      this.sourceStr = this.sourceStr.split("‧").join(".");
+    }
+  },
+  watch: {
+    sourceStr() {
+      this.cleanInput();
+    }
   }
 });
 </script>

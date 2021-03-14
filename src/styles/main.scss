@@ -38,6 +38,14 @@ body {
   nav {
     font-family: "Fredoka One", cursive;
   }
+  .help {
+    padding: 1em;
+    text-align: left;
+    em {
+      color: $yellow-fg;
+      font-style: normal;
+    }
+  }
 }
 
 #nav {

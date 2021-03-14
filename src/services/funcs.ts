@@ -96,3 +96,41 @@ export const randomSourceString = () => {
   const randIndex = Math.floor(Math.random() * strs.length * 0.9999);
   return strs[randIndex];
 };
+
+export const convertToDozenalNotation = (radixStr: string) => {
+  return radixStr.replace(/[ad]/gi, "ð").replace(/[be]/gi, "ɛ");
+};
+
+export const convertFromDozenalNotation = (radixStr: string) => {
+  return radixStr.replace(/[dð]/gi, "a").replace(/[ɛe]/gi, "b");
+};
+
+export const convertToAplhanumHexavigNotation = (radixStr: string) => {
+  return radixStr
+    .split(".")
+    .map((part) =>
+      part
+        .split(":")
+        .map((sub) => {
+          if (sub.length > 1) {
+            const subChars = sub.split("");
+            const firstInt = parseInt(subChars[0], 10);
+            const firstChar = String.fromCharCode(97 + firstInt);
+            return [firstChar, subChars[1]].join("");
+          } else {
+            return sub;
+          }
+        })
+        .join(":")
+    )
+    .join(".");
+};
+
+export const sanitizeRadixSource = (source: string, radix = 12) => {
+  switch (radix) {
+    case 12:
+      return convertFromDozenalNotation(source);
+    default:
+      return source;
+  }
+};

@@ -1,3 +1,8 @@
+import {
+  convertToDozenalNotation,
+  sanitizeRadixSource,
+} from "@/services/funcs";
+
 export class FracParts {
   numerator = 0;
   denominator = 0;
@@ -51,6 +56,10 @@ export class RadixEngine {
 
   module: any = null;
 
+  applyDozenalNotation = false;
+
+  applyAlphaNumHexavigNotation = false;
+
   constructor(exported: any = null) {
     if (exported instanceof Object) {
       this.module = exported;
@@ -59,11 +68,21 @@ export class RadixEngine {
   }
 
   toRadix(decVal: number, toBase = 12): string {
-    return this.loaded ? this.module.decimal_to_radix(decVal, toBase) : "-";
+    const str = this.loaded
+      ? this.module.decimal_to_radix(decVal, toBase)
+      : "-";
+    switch (toBase) {
+      case 12:
+        return this.applyDozenalNotation ? convertToDozenalNotation(str) : str;
+      default:
+        return str;
+    }
   }
 
   toDec(source = "", radix = 10): number {
-    return this.loaded ? this.module.radix_to_decimal(source, radix) : 0;
+    return this.loaded
+      ? this.module.radix_to_decimal(sanitizeRadixSource(source, radix), radix)
+      : 0;
   }
 
   toFrac(num: number, precision = 4096): FracParts {

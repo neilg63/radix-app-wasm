@@ -96,3 +96,36 @@ export const baseData = radices.map((num) => {
   const label = matchRadixLabel(num);
   return { value: num, label };
 });
+
+const matchLastDigit = (base = 10) => {
+  return base - 1;
+};
+
+const matchLastChar = (base = 16) => {
+  return String.fromCharCode(97 + base - 11);
+};
+
+export const matchHelpText = (base = 12) => {
+  const exprHelp = `<li>You may enter expressions with common operators such <em>+</em>, <em>-</em>, <em>*</em> and <em>/</em> and use parentheses <em>(2 + 3)</em> to group expressions.</em></li>`;
+  switch (base) {
+    case 12:
+      return `<ul><li>For <em>ten (10)</em> type <em>d</em>, <em>ð</em> or <em>a</em></li><li>For <em>eleven (11)</em> type <em>e</em>, <em>ɛ</em> or <em>b</em></li><li>Type <em>0</em> to <em>9</em> for other unit values</li>${exprHelp}</ul>`;
+    case 2:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 10:
+      return `<ul><li>Use numbers between <em>0</em> and <em>${matchLastDigit(
+        base
+      )}</em></li>${exprHelp}</ul>`;
+    case 60:
+      return `<ul><li>Type numbers greater than 60 as colon-separated pairs of digits between <em>00</em> and <em>59</em>, e.g. <em>02:15</em> is <em>135</em> in decimal</li>${exprHelp}</ul>`;
+    default:
+      return `<ul><li>For number units between <em>10</em> and ${matchLastDigit(
+        base
+      )} type letters <em>a</em> to <em>${matchLastChar(
+        base
+      )}</em></li>${exprHelp}</ul>`;
+  }
+};
