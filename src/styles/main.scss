@@ -35,14 +35,11 @@ body {
   }
   h1,
   h2,
-  nav {
+  nav,
+  .developed-by {
     font-family: "Fredoka One", cursive;
+    user-select: none;
     position: relative;
-    .info-logo {
-      position: absolute;
-      right: 0.5em;
-      top: 0;
-    }
   }
   .help {
     padding: 1em;
@@ -50,6 +47,7 @@ body {
     em {
       color: $yellow-fg;
       font-style: normal;
+      display: inline-block;
     }
   }
 }
@@ -60,6 +58,11 @@ body {
     text-decoration: none;
     font-size: 1.25rem;
     user-select: none;
+  }
+  .info-logo {
+    position: absolute;
+    right: 0.5em;
+    top: 0;
   }
 }
 
@@ -147,6 +150,29 @@ body {
     .p-splitbutton {
       margin: 0 0.5em;
     }
+    .from-selector {
+      .p-splitbutton-defaultbutton {
+        order: 2;
+        border-radius: 3px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        .p-button-label {
+          order: 1;
+        }
+        .p-button-icon-left {
+          order: 2;
+          margin-right: 0;
+          margin-left: 0.5em;
+        }
+      }
+
+      .p-button-icon-only {
+        order: 1;
+        border-radius: 3px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
   }
 
   .selector {
@@ -184,6 +210,54 @@ body {
       .p-button-icon {
         transform: rotate(-90deg);
       }
+    }
+  }
+}
+
+#footer {
+  max-width: 50em;
+  margin: 1em auto;
+  p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: $min-tablet-width) {
+      flex-flow: column nowrap;
+      .first {
+        margin-bottom: 1em;
+      }
+    }
+    @media (min-width: $min-tablet-width) {
+      flex-flow: row nowrap;
+      &.attribution {
+        line-height: 2em;
+      }
+      .first {
+        padding-right: 1em;
+        border-right: solid 1px $color-fg;
+        border-bottom: solid 1px $color-fg;
+        border-bottom-right-radius: 0.5em;
+        padding-bottom: 0.25em;
+      }
+      .second {
+        padding-left: 1em;
+        border-top: solid 1px $color-fg;
+        border-left: solid 1px $color-fg;
+        border-top-left-radius: 0.5em;
+        left: -1px;
+        top: -0.375em;
+        padding-top: 0.25em;
+      }
+    }
+
+    span,
+    a {
+      display: block;
+      margin: 0;
+    }
+    a {
+      text-decoration: none;
     }
   }
 }

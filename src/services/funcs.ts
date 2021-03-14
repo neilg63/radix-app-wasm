@@ -134,3 +134,16 @@ export const sanitizeRadixSource = (source: string, radix = 12) => {
       return source;
   }
 };
+
+export const truncateRadix = (radixStr: string, radix = 12) => {
+  if (radix < 30) {
+    if (radixStr.includes(".")) {
+      const [first, second] = radixStr.split(".");
+      const numPlaceValueUnits = second.length;
+      if (numPlaceValueUnits > 13) {
+        return [first, second.substring(0, 13)].join(".");
+      }
+    }
+  }
+  return radixStr;
+};

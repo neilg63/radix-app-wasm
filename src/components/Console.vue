@@ -1,10 +1,10 @@
 <template>
   <section class="console">
     <h1 class="row">
-      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" :model="fromRadixItems"></SplitButton>
+      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
       <Button icon="pi pi-sort-alt" class="p-button-rounded toggle-bases" @click="invert" />
       <span class="text" @click="invert">{{ msg }}</span>
-      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" :model="toRadixItems"></SplitButton>
+      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
     </h1>
 
     <div class="row input-panel">

@@ -1,6 +1,7 @@
 import {
   convertToDozenalNotation,
   sanitizeRadixSource,
+  truncateRadix,
 } from "@/services/funcs";
 
 export class FracParts {
@@ -69,7 +70,7 @@ export class RadixEngine {
 
   toRadix(decVal: number, toBase = 12): string {
     const str = this.loaded
-      ? this.module.decimal_to_radix(decVal, toBase)
+      ? truncateRadix(this.module.decimal_to_radix(decVal, toBase), toBase)
       : "-";
     switch (toBase) {
       case 12:

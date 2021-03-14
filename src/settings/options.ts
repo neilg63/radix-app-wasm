@@ -82,6 +82,8 @@ const matchIcon = (base: number) => {
   }
 };
 
+const currentYear = new Date().getFullYear();
+
 export const radixOpts: NumValueName[] = radices.map((num) => {
   const name = matchRadixAbbr(num);
   const label = [num, matchRadixLabel(num)].join(": ");
@@ -129,3 +131,5 @@ export const matchHelpText = (base = 12) => {
       )}</em></li>${exprHelp}</ul>`;
   }
 };
+
+export const defaultCopyrightMarkup = `<span class="copyright first">© Neil Gardner ${currentYear}</span> <a href="https://www.multifaceted.info" target="_blank" class="developed-by second">Multifaceted Web Services</a>`;
