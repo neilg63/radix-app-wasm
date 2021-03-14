@@ -83,7 +83,7 @@ export default defineComponent({
     })
 
     const sourceVal = computed(() => {
-      return fromBase.value === 10 ? decValFormatted.value : engine.toRadix(decVal.value, fromBase.value).split(".").join("ׁׁׂ‧");
+      return fromBase.value === 10 ? decValFormatted.value : engine.toRadix(decVal.value, fromBase.value, sourceStr.value).split(".").join("ׁׁׂ‧");
     })
 
     const toVal = computed(() => {

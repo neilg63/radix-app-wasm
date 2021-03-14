@@ -68,9 +68,13 @@ export class RadixEngine {
     }
   }
 
-  toRadix(decVal: number, toBase = 12): string {
+  toRadix(decVal: number, toBase = 12, sourceStr = ""): string {
     const str = this.loaded
-      ? truncateRadix(this.module.decimal_to_radix(decVal, toBase), toBase)
+      ? truncateRadix(
+          this.module.decimal_to_radix(decVal, toBase),
+          toBase,
+          sourceStr
+        )
       : "-";
     switch (toBase) {
       case 12:

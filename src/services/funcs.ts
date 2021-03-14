@@ -135,7 +135,14 @@ export const sanitizeRadixSource = (source: string, radix = 12) => {
   }
 };
 
-export const truncateRadix = (radixStr: string, radix = 12) => {
+export const truncateRadix = (radixStr: string, radix = 12, sourceStr = "") => {
+  if (sourceStr.length > 2 && sourceStr.includes(".")) {
+    if (!/^.+[+*/^)(-]/.test(sourceStr)) {
+      if (radixStr.length > sourceStr.length) {
+        return sourceStr;
+      }
+    }
+  }
   if (radix < 30) {
     if (radixStr.includes(".")) {
       const [first, second] = radixStr.split(".");
