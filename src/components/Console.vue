@@ -1,8 +1,8 @@
 <template>
-  <section class="console">
+  <section class="console" :class="wrapperClasses">
     <h1 class="row">
       <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
-      <Button icon="pi pi-sort-alt" class="p-button-rounded toggle-bases" @click="invert" />
+      <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" />
       <span class="text" @click="invert">{{ msg }}</span>
       <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
     </h1>
@@ -187,6 +187,12 @@ export default defineComponent({
           break;
       }
       this.sourceStr = this.sourceStr.split("‧").join(".");
+    }
+  },
+  computed: {
+    wrapperClasses(): string[] {
+      const radModeClass = this.fromBase === 10? 'dec-mode' : 'radix-mode';
+      return [['radix', this.fromBase, 'mode'].join('-'), radModeClass];
     }
   },
   watch: {

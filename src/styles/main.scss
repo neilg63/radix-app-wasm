@@ -7,6 +7,7 @@ $blue-fg: #99ccff;
 $green-fg: #99ffcc;
 $red-fg: #ff99cc;
 $yellow-fg: #ffff66;
+$dark-purple: #440044;
 
 @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poiret+One&display=swap");
 
@@ -24,6 +25,10 @@ html {
 body {
   background-color: $color-bg;
   color: $color-fg;
+}
+
+body,
+#app .dec-mode input.p-inputtext {
   font-family: "Poiret One", cursive;
 }
 
@@ -49,6 +54,13 @@ body {
       font-style: normal;
       display: inline-block;
     }
+  }
+  .rad-val,
+  .radix-mode input.p-inputtext {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    background-color: $dark-purple;
   }
 }
 
