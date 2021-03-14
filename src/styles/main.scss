@@ -37,6 +37,12 @@ body {
   h2,
   nav {
     font-family: "Fredoka One", cursive;
+    position: relative;
+    .info-logo {
+      position: absolute;
+      right: 0.5em;
+      top: 0;
+    }
   }
   .help {
     padding: 1em;

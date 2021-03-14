@@ -106,7 +106,7 @@ const matchLastChar = (base = 16) => {
 };
 
 export const matchHelpText = (base = 12) => {
-  const exprHelp = `<li>You may enter expressions with common operators such <em>+</em>, <em>-</em>, <em>*</em> and <em>/</em> and use parentheses <em>(2 + 3)</em> to group expressions.</em></li>`;
+  const exprHelp = `<li>You may enter expressions with common operators such as <em>+</em>, <em>-</em>, <em>*</em> and <em>/</em> and use parentheses, e.g. <em>(2 + 3)</em>, to group expressions.</em></li>`;
   switch (base) {
     case 12:
       return `<ul><li>For <em>ten (10)</em> type <em>d</em>, <em>ð</em> or <em>a</em></li><li>For <em>eleven (11)</em> type <em>e</em>, <em>ɛ</em> or <em>b</em></li><li>Type <em>0</em> to <em>9</em> for other unit values</li>${exprHelp}</ul>`;
