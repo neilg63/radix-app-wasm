@@ -4,6 +4,8 @@ import {
   truncateRadix,
 } from "@/services/funcs";
 
+const FRAC_PRECISION = 1024 * 256;
+
 export class FracParts {
   numerator = 0;
   denominator = 0;
@@ -105,7 +107,11 @@ export class RadixEngine {
     return new FracParts(numerator, denominator, difference);
   }
 
-  toRadixFrac(num: number, base = 12, precision = 4096): RadixFracParts {
+  toRadixFrac(
+    num: number,
+    base = 12,
+    precision = FRAC_PRECISION
+  ): RadixFracParts {
     const frac = this.toFrac(num, precision);
     return {
       wholeNum: this.toRadix(frac.wholeNum, base),
