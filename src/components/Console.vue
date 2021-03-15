@@ -3,7 +3,6 @@
     <h1 class="row">
       <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
       <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" />
-      <span class="text" @click="invert">{{ msg }}</span>
       <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
     </h1>
 
@@ -47,11 +46,7 @@ import { buildBasePatternStr, convertToDozenalNotation, evaluateExpression, rand
 
 export default defineComponent({
   name: 'Console',
-  props: {
-    msg: String,
-  },
-
-  setup(props) {
+  setup() {
     const sourceStr = ref(randomSourceString());
     const fromBase = ref(10);
     const toBase = ref(12);
@@ -75,15 +70,15 @@ export default defineComponent({
           parts[1] = parts[1].substring(0, 10);
         }
       }
-      return parts.join("‧");
+      return parts.join("·");
     })
 
     const radixVal = computed(() => {
-      return engine.toRadix(decVal.value, toBase.value).split(".").join("‧");
+      return engine.toRadix(decVal.value, toBase.value).split(".").join("·");
     })
 
     const sourceVal = computed(() => {
-      return fromBase.value === 10 ? decValFormatted.value : engine.toRadix(decVal.value, fromBase.value, sourceStr.value).split(".").join("ׁׁׂ‧");
+      return fromBase.value === 10 ? decValFormatted.value : engine.toRadix(decVal.value, fromBase.value, sourceStr.value).split(".").join("ׁׁׂ·");
     })
 
     const toVal = computed(() => {
@@ -186,7 +181,7 @@ export default defineComponent({
           this.sourceStr = convertToDozenalNotation(this.sourceStr);       
           break;
       }
-      this.sourceStr = this.sourceStr.split("‧").join(".");
+      this.sourceStr = this.sourceStr.split("·").join(".");
     }
   },
   computed: {
