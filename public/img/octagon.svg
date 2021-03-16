@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1458px" height="1458px" viewBox="0 0 1458 1458" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>octagon</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="octagon" stroke="#979797" fill="#D8D8D8" transform="translate(729.000000, 729.000000) rotate(22.500000) translate(-729.000000, -729.000000) " points="729 -59 1286.20014 171.799856 1517 729 1286.20014 1286.20014 729 1517 171.799856 1286.20014 -59 729 171.799856 171.799856"></polygon>
+    </g>
+</svg>

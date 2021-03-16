@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1578px" height="1366px" viewBox="0 0 1578 1366" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>hexagon</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="hexagon" stroke="#979797" fill="#D8D8D8" transform="translate(789.000000, 683.000000) rotate(30.000000) translate(-789.000000, -683.000000) " points="789 -105 1471.42802 289 1471.42802 1077 789 1471 106.571982 1077 106.571982 289"></polygon>
+    </g>
+</svg>
