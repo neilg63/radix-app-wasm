@@ -1,15 +1,19 @@
 <template>
+<div class="mode-logo">
+      <i :class="radixIconClasses"></i>
+      <h4>{{topLabel}}</h4>
+    </div>
   <section class="console" :class="wrapperClasses">
+    
     <h1 class="row">
-      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
+      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="radixItems"></SplitButton>
       <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" />
-      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
+      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="radixItems"></SplitButton>
     </h1>
 
     <div class="row input-panel">
       <InputText type="text" v-model="sourceStr" size="60" class="expression-input large" placeholder="enter expression" />
     </div>
-
     <div v-if="loaded" class="row values">
         
         <h3 class="from-value" :class="fromBaseClasses">
@@ -41,7 +45,7 @@
 <script lang="ts">
 import { ref, defineComponent, computed, onMounted, reactive } from 'vue';
 import { RadixEngine } from '@/engine/radix';
-import { radixOpts, matchRadixLabel, matchHelpText } from '@/settings/options';
+import { radixOpts, matchRadixLabel, matchHelpText, matchRadixAltLabel, matchIcon } from '@/settings/options';
 import { buildBasePatternStr, convertToDozenalNotation, evaluateExpression, randomSourceString, sanitizeRadixSource } from '@/services/funcs';
 
 export default defineComponent({
@@ -113,27 +117,14 @@ export default defineComponent({
       return fromBase.value !== 10 && toBase.value !== 10;
     })
 
-    const fromRadixItems = computed(() => {
-      return radixOpts.filter(row => row.value !== toBase.value).map(row => {
+    const radixItems = computed(() => {
+      return radixOpts.map(row => {
         const {label, value, icon } = row;
         return { 
           label,
           icon,
           command: () => {
             fromBase.value = value
-          }
-        }
-      });
-    });
-
-    const toRadixItems = computed(() => {
-      return radixOpts.filter(row => row.value !== fromBase.value).map(row => {
-        const {label, value,icon } = row;
-        return { 
-          label,
-          icon,
-          command: () => {
-            toBase.value = value
           }
         }
       });
@@ -165,7 +156,8 @@ export default defineComponent({
       });
     });
     const helpText = computed(() => matchHelpText(fromBase.value) );
-    return { engine, fromBase, toBase, fromRadixItems, toRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText }
+    const topLabel = computed(() =>matchRadixAltLabel(fromBase.value));
+    return { engine, fromBase, toBase, radixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText, topLabel }
   },
   methods: {
     invert() {
@@ -188,6 +180,9 @@ export default defineComponent({
     wrapperClasses(): string[] {
       const radModeClass = this.fromBase === 10? 'dec-mode' : 'radix-mode';
       return [['radix', this.fromBase, 'mode'].join('-'), radModeClass];
+    },
+    radixIconClasses(): string {
+      return matchIcon(this.fromBase);
     }
   },
   watch: {

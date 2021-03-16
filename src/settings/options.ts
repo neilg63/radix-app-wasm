@@ -41,6 +41,15 @@ export const matchRadixLabel = (base: number) => {
   }
 };
 
+export const matchRadixAltLabel = (base: number) => {
+  switch (base) {
+    case 12:
+      return "dozenal";
+    default:
+      return matchRadixLabel(base);
+  }
+};
+
 export const matchRadixAbbr = (base: number) => {
   switch (base) {
     case 2:
@@ -64,21 +73,11 @@ export const matchRadixAbbr = (base: number) => {
   }
 };
 
-const matchIcon = (base: number) => {
+export const matchIcon = (base: number) => {
   if (base === 2) {
-    return "pi-pause";
-  } else if (base < 10) {
-    return "pi-caret-left";
-  } else if (base === 10) {
-    return "pi-percentage";
-  } else if (base === 12) {
-    return "pi-clock";
-  } else if (base === 16) {
-    return "pi-sun";
-  } else if (base <= 36) {
-    return "pi-caret-right";
+    return "icon-binary";
   } else {
-    return "pi-compass";
+    return ["icon", "star", base].join("-");
   }
 };
 
@@ -87,7 +86,7 @@ const currentYear = new Date().getFullYear();
 export const radixOpts: NumValueName[] = radices.map((num) => {
   const name = matchRadixAbbr(num);
   const label = [num, matchRadixLabel(num)].join(": ");
-  const icon = ["pi", matchIcon(num)].join(" ");
+  const icon = matchIcon(num);
   const sizeClass =
     name.length > 8 ? "long" : name.length < 5 ? "short" : "medium";
   const classNames = [name, sizeClass];

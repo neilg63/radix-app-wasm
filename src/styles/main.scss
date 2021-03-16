@@ -66,6 +66,15 @@ body,
   .radix-mode input.p-inputtext {
     background-color: $dark-purple;
   }
+
+  .mode-logo {
+    position: absolute;
+    top: 0.5em;
+    left: 1vw;
+    i {
+      font-size: 5vw;
+    }
+  }
 }
 
 #nav {
