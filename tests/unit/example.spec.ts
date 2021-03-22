@@ -1,12 +1,11 @@
-import { shallowMount } from "@vue/test-utils";
-import Console from "@/components/Console.vue";
+import { mount } from "@vue/test-utils";
+import Console from "@/components/console.vue";
+import InputText from "primevue/inputtext";
 
 describe("Console.vue", () => {
-  it("renders props.msg when passed", () => {
-    const msg = "new message";
-    const wrapper = shallowMount(Console, {
-      props: { msg },
-    });
-    expect(wrapper.text()).toMatch(msg);
+  it("Contains an input element", () => {
+    mount(InputText);
+    const wrapper = mount(Console);
+    expect(wrapper.findAll("input.expression-input").length).toBe(1);
   });
 });

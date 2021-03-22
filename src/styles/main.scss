@@ -7,6 +7,7 @@ $blue-fg: #99ccff;
 $green-fg: #99ffcc;
 $red-fg: #ff99cc;
 $yellow-fg: #ffff66;
+$light-yellow: #eeeeaa;
 $dark-purple: #440044;
 
 @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poiret+One&display=swap");
@@ -19,6 +20,33 @@ html {
 
   @media (min-width: $min-desktop-width) {
     font-size: 1.5vw;
+  }
+}
+
+.overlay {
+  position: fixed;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  &.info-overlay {
+    left: 5%;
+    right: 5%;
+    top: 6em;
+    padding: 1em;
+    background-color: $light-yellow;
+    color: black;
+    box-shadow: 0.0625em 0.0625em 0.125em $light-yellow;
+    border-radius: 0.125em;
+    @media (min-width: $min-desktop-width) {
+      left: calc(50vw - 400px);
+      right: calc(50vw - 400px);
+      top: 8em;
+    }
   }
 }
 
@@ -71,8 +99,21 @@ body,
     position: absolute;
     top: 0.5em;
     left: 1vw;
+    cursor: pointer;
     i {
       font-size: 5vw;
+      display: block;
+      position: relative;
+      transition: transform 1s ease-in-out, color 0.5s ease-in-out;
+    }
+
+    &:hover {
+      i {
+        transform: rotate(60deg);
+        &::before {
+          color: $light-yellow;
+        }
+      }
     }
   }
 }

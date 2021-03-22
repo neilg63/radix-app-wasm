@@ -1,14 +1,15 @@
 <template>
-<div class="mode-logo">
+<div class="mode-logo" @click="toggleInfo">
       <i :class="radixIconClasses"></i>
       <h4>{{topLabel}}</h4>
-    </div>
+      <Info :base="fromBase" :visible="showInfo" />
+ </div>
   <section class="console" :class="wrapperClasses">
     
     <h1 class="row">
-      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="radixItems"></SplitButton>
+      <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
       <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" />
-      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="radixItems"></SplitButton>
+      <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
     </h1>
 
     <div class="row input-panel">
@@ -47,8 +48,12 @@ import { ref, defineComponent, computed, onMounted, reactive } from 'vue';
 import { RadixEngine } from '@/engine/radix';
 import { radixOpts, matchRadixLabel, matchHelpText, matchRadixAltLabel, matchIcon } from '@/settings/options';
 import { buildBasePatternStr, convertToDozenalNotation, evaluateExpression, randomSourceString, sanitizeRadixSource } from '@/services/funcs';
+import Info from "./Info.vue";
 
 export default defineComponent({
+  components: {
+    Info,
+  },
   name: 'Console',
   setup() {
     const sourceStr = ref(randomSourceString());
@@ -117,17 +122,29 @@ export default defineComponent({
       return fromBase.value !== 10 && toBase.value !== 10;
     })
 
-    const radixItems = computed(() => {
+    const buildRadixItems = (mode = "from") => {
       return radixOpts.map(row => {
         const {label, value, icon } = row;
         return { 
           label,
           icon,
           command: () => {
-            fromBase.value = value
+            if (mode === "to") {
+              toBase.value = value
+            } else {
+              fromBase.value = value
+            }
           }
         }
       });
+    }
+
+    const toRadixItems = computed(() => {
+      return buildRadixItems("to");
+    });
+
+    const fromRadixItems = computed(() => {
+      return buildRadixItems("from");
     });
 
     const fracValClasses = computed(() => {
@@ -157,7 +174,27 @@ export default defineComponent({
     });
     const helpText = computed(() => matchHelpText(fromBase.value) );
     const topLabel = computed(() =>matchRadixAltLabel(fromBase.value));
-    return { engine, fromBase, toBase, radixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText, topLabel }
+    return { engine, fromBase, toBase, toRadixItems, fromRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText, topLabel }
+  },
+  data() {
+    return {
+      showInfo: false
+    }
+  },
+  created() {
+    window.addEventListener('keydown', (e) => {
+      switch(e.which) {
+        case 27:
+          this.showInfo = false;
+          break;
+        case 38:
+          this.decreaseToBase();
+          break;
+        case 40:
+          this.increaseToBase();
+          break;
+      }
+    });
   },
   methods: {
     invert() {
@@ -174,8 +211,21 @@ export default defineComponent({
           break;
       }
       this.sourceStr = this.sourceStr.split("·").join(".");
-    }
-  },
+    },
+    toggleInfo() {
+      this.showInfo = !this.showInfo;
+    },
+    increaseToBase(up = true) {
+      const currIndex = radixOpts.findIndex(ro => ro.value === this.toBase);
+      const nextIndex = up? currIndex + 1 : currIndex - 1;
+      if (nextIndex >= 0 && nextIndex < radixOpts.length) {
+        this.toBase = radixOpts[nextIndex].value;
+      }
+    },
+    decreaseToBase() {
+      this.increaseToBase(false);
+    },
+  }, 
   computed: {
     wrapperClasses(): string[] {
       const radModeClass = this.fromBase === 10? 'dec-mode' : 'radix-mode';
