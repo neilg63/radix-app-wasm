@@ -7,6 +7,7 @@ import InputText from "primevue/inputtext";
 import SelectButton from "primevue/selectbutton";
 import SplitButton from "primevue/splitbutton";
 import Toast from "primevue/toast";
+import Tooltip from "primevue/tooltip";
 import "./registerServiceWorker";
 const app = createApp(App);
 
@@ -14,6 +15,7 @@ import "primevue/resources/themes/luna-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
+app.directive("tooltip", Tooltip);
 app.use(router);
 app.use(PrimeVue);
 app.component("Button", Button);

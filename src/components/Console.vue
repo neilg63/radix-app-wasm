@@ -1,14 +1,14 @@
 <template>
-<div class="mode-logo" @click="toggleInfo">
+<div class="mode-logo" @click="toggleInfo" v-tooltip.right="learnMoreLabel">
       <i :class="radixIconClasses"></i>
       <h4>{{topLabel}}</h4>
       <Info :base="fromBase" :visible="showInfo" />
  </div>
-  <section class="console" :class="wrapperClasses">
+  <section class="console" :class="wrapperClasses" @click="handlleMainArea">
     
     <h1 class="row">
       <SplitButton :label="fromBaseLabel" icon="pi pi-chevron-left" class="from-selector" :model="fromRadixItems"></SplitButton>
-      <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" />
+      <Button icon="pi pi-sort-alt" class="p-button-rounded p-button-success toggle-bases" @click="invert" v-tooltip.bottom="swapBaseLabel" />
       <SplitButton :label="toBaseLabel" icon="pi pi-chevron-right" class="to-selector" :model="toRadixItems"></SplitButton>
     </h1>
 
@@ -16,11 +16,10 @@
       <InputText type="text" v-model="sourceStr" size="60" class="expression-input large" placeholder="enter expression" />
     </div>
     <div v-if="loaded" class="row values">
-        
-        <h3 class="from-value" :class="fromBaseClasses">
+        <h3 class="from-value" :class="fromBaseClasses" v-tooltip.bottom="sourceToolTip(fromBase)">
           {{sourceVal}}
         </h3>
-        <h3 class="to-value" :class="toBaseClasses">
+        <h3 class="to-value" :class="toBaseClasses" v-tooltip.bottom="sourceToolTip(toBase)">
           {{toVal}}
         </h3>
         <h3 v-if="fromNonDec" class="dec-val">{{decVal}}</h3>
@@ -225,6 +224,9 @@ export default defineComponent({
     decreaseToBase() {
       this.increaseToBase(false);
     },
+    sourceToolTip(base: number) {
+      return matchRadixAltLabel(base);
+    }
   }, 
   computed: {
     wrapperClasses(): string[] {
@@ -233,6 +235,13 @@ export default defineComponent({
     },
     radixIconClasses(): string {
       return matchIcon(this.fromBase);
+    },
+    learnMoreLabel() {
+      const baseName = matchRadixAltLabel(this.fromBase);
+      return `Learn more about the ${baseName} system`
+    },
+    swapBaseLabel() {
+      return "Click to swap bases";
     }
   },
   watch: {

@@ -23,7 +23,7 @@ export const radixInfoItems: InfoItem[] = [
   {
     key: "septenary",
     radix: 7,
-    content: `<p>Base 7 is rare as a primary number system. However, it does exist as subsystem for weekdays and some customary units of measurement, e.g. 14 pounds to a stone in the British imperial system. 7 is the fourth commonest primary number in nature.</p>`,
+    content: `<p>Base 7 is rare as a primary number system. However, it may feature in subsystems for weekdays and some customary units of measurement, e.g. 14 pounds to a stone in the British imperial system. 7 is the fourth commonest primary number in nature.</p>`,
   },
   {
     key: "octal",
@@ -33,7 +33,7 @@ export const radixInfoItems: InfoItem[] = [
   {
     key: "decimal",
     radix: 10,
-    content: `<p>This is the primary number system adopted by most human civilisations, although often alongside other subsystems divisible by 3 and 4.</p><p>The decimal system has two main advantages. First it matches the number of digits on our hands. Second, its core unit values can be easily memorised. Most number systems larger than 16 use multiples of ten.</p><p>However, base 10 is not divisible exactly by 3, which plays a key role in geometry, but 1/3 may be rendered in decimal notation with recurring 3s, e.g. 0.333333˙.</p>`,
+    content: `<p>Ten is the basis for the primary number system adopted by most human civilisations, although often alongside other subsystems divisible by 3 and 4.</p><p>The decimal system has two main advantages. First it matches the number of digits on our hands. Second, its core unit values can be easily memorised. Most number systems larger than 16 use multiples of ten.</p><p>However, base 10 is not divisible exactly by 3, which plays a key role in geometry, but 1/3 may be rendered in decimal notation with recurring 3s, e.g. 0.333333˙.</p>`,
   },
   {
     key: "duodecimal",
@@ -48,7 +48,7 @@ export const radixInfoItems: InfoItem[] = [
   {
     key: "hexadecimal",
     radix: 16,
-    content: `<p>Base 16 is common in many traditional units, e.g. ounces in a pound, due its greater divisibility by two, e.g. something can be be halved 4 times and still yield a whole number. However, its relevance has increased largely as a superset of binary notation. However, all rational fractions based on primary numbers other than 2 will yield recurrent sequences, e.g. 0.555˙ for 1/3, 0.333˙ for 1/5 and 0.249˙ for 1/7. There is a certain beauty in the uniformity of these sequences.</p>`,
+    content: `<p>Base 16 is common in many traditional units of measurement, such as ounces per pound, as it can be halved 4 times and still yield a whole number. However, its relevance has increased largely as a superset of binary notation. However, all rational fractions based on primary numbers other than 2 will yield recurrent sequences, e.g. 0.555˙ for 1/3, 0.333˙ for 1/5 and 0.249˙ for 1/7. There is a certain beauty in the uniformity of these sequences.</p>`,
   },
   {
     key: "vigesimal",

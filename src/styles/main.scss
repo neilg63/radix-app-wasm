@@ -37,11 +37,15 @@ html {
     left: 5%;
     right: 5%;
     top: 6em;
-    padding: 1em;
+
     background-color: $light-yellow;
     color: black;
     box-shadow: 0.0625em 0.0625em 0.125em $light-yellow;
     border-radius: 0.125em;
+    .content {
+      padding: 1em;
+      text-align: left;
+    }
     @media (min-width: $min-desktop-width) {
       left: calc(50vw - 400px);
       right: calc(50vw - 400px);
