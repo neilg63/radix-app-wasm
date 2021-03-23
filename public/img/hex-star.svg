@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1578px" height="1367px" viewBox="0 0 1578 1367" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>hex-star</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M1183,0.863781814 L1577,683.2918 L1183,1365.71982 L395,1365.71982 L1,683.2918 L395,0.863781814 L1183,0.863781814 Z M789.5,197.2918 L667.875,473.131121 L368.178641,440.5418 L546.25,683.7918 L368.178641,927.0418 L667.875,894.452479 L789.5,1170.2918 L911.125,894.452479 L1210.82136,927.0418 L1032.75,683.7918 L1210.82136,440.5418 L911.125,473.131121 L789.5,197.2918 Z" id="hex-star" stroke="#979797" fill="#D8D8D8"></path>
+    </g>
+</svg>
