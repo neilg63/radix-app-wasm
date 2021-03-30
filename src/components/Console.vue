@@ -1,8 +1,14 @@
 <template>
-<div class="mode-logo" @click="toggleInfo" v-tooltip.right="learnMoreLabel">
+<div class="mode-logo" v-tooltip.right="learnMoreLabel">
+    <div class="from-base-indicator" @click="toggleInfo('from')">
       <i :class="radixIconClasses"></i>
-      <h4>{{topLabel}}</h4>
-      <Info :base="fromBase" :visible="showInfo" />
+        <h4>{{topFromLabel}}</h4>
+    </div>
+    <div class="from-base-indicator" @click="toggleInfo('to')">
+        <i :class="toRadixIconClasses"></i>
+        <h4>{{topToLabel}}</h4>
+    </div>
+      <Info :base="infoBase" :visible="showInfo" />
  </div>
   <section class="console" :class="wrapperClasses" @click="handlleMainArea">
     
@@ -36,6 +42,7 @@
           <span class="denominator">{{radixFracVal.denominator}}</span>
         </h3>
       </div>
+      <key-pad :base="fromBase" @key-press="handleKeyPadButton" />
       <aside class="help">
         <p v-html="helpText"></p>
       </aside>
@@ -45,13 +52,15 @@
 <script lang="ts">
 import { ref, defineComponent, computed, onMounted, reactive } from 'vue';
 import { RadixEngine } from '@/engine/radix';
-import { radixOpts, matchRadixLabel, matchHelpText, matchRadixAltLabel, matchIcon } from '@/settings/options';
-import { buildBasePatternStr, convertToDozenalNotation, evaluateExpression, randomSourceString, sanitizeRadixSource } from '@/services/funcs';
+import { radixOpts, matchRadixLabel, matchHelpText, matchRadixAltLabel, matchIcon, operators, groupKeys } from '@/settings/options';
+import { buildBasePatternStr, convertToDozenalNotation, convertToHexagesimalNotation, evaluateExpression, randomSourceString, sanitizeRadixSource } from '@/services/funcs';
 import Info from "./Info.vue";
+import KeyPad from "./KeyPad.vue";
 
 export default defineComponent({
   components: {
     Info,
+    KeyPad,
   },
   name: 'Console',
   setup() {
@@ -172,12 +181,12 @@ export default defineComponent({
       });
     });
     const helpText = computed(() => matchHelpText(fromBase.value) );
-    const topLabel = computed(() =>matchRadixAltLabel(fromBase.value));
-    return { engine, fromBase, toBase, toRadixItems, fromRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText, topLabel }
+    return { engine, fromBase, toBase, toRadixItems, fromRadixItems, sourceStr, decVal, decValFormatted, radixVal, loaded, fromNonDec, toVal, sourceVal, fromBaseClasses, toBaseClasses, isInteger, fracVal, fracValClasses, inputPattern, radixFracVal, fromBaseLabel, toBaseLabel, helpText }
   },
   data() {
     return {
-      showInfo: false
+      showInfo: false,
+      infoMode: 'from'
     }
   },
   created() {
@@ -208,11 +217,15 @@ export default defineComponent({
         case 12:
           this.sourceStr = convertToDozenalNotation(this.sourceStr);       
           break;
+        case 60:
+          this.sourceStr = convertToHexagesimalNotation(this.sourceStr);       
+          break;
       }
       this.sourceStr = this.sourceStr.split("·").join(".");
     },
-    toggleInfo() {
-      this.showInfo = !this.showInfo;
+    toggleInfo(mode = "from") {
+      this.showInfo = !this.showInfo || (this.infoMode !== mode && this.showInfo);
+      this.infoMode = mode;
     },
     increaseToBase(up = true) {
       const currIndex = radixOpts.findIndex(ro => ro.value === this.toBase);
@@ -226,6 +239,33 @@ export default defineComponent({
     },
     sourceToolTip(base: number) {
       return matchRadixAltLabel(base);
+    },
+    matchFuncKey(key: string) {
+      const op = [...operators, ...groupKeys].find(op => op.key === key);
+      const space = operators.some(op => op.key === key)? ' ' : '';
+      return op instanceof Object? space + op.symbol + space : '';
+    },
+    handleKeyPadButton(key: string) {
+      let str = '';
+      if (key.length === 1) {
+        str = key;
+      } else if (key.length === 2 && /^\d\d$/.test(key)) {
+        const u = parseInt(key.substring(0,1), 10);
+        str = String.fromCharCode(u + 97);
+      } else {
+        switch (key) {
+          case 'clear':
+            this.sourceStr = '';
+            break;
+          default:
+            str = this.matchFuncKey(key)
+            break;
+        }
+      }
+      if (str.length > 0) {
+        this.sourceStr += str;
+        this.sourceStr = this.sourceStr.replace(/([a-z0-9()])\s+$/i, "$1");
+      }
     }
   }, 
   computed: {
@@ -236,12 +276,24 @@ export default defineComponent({
     radixIconClasses(): string {
       return matchIcon(this.fromBase);
     },
-    learnMoreLabel() {
+    toRadixIconClasses(): string {
+      return matchIcon(this.toBase);
+    },
+    learnMoreLabel(): string {
       const baseName = matchRadixAltLabel(this.fromBase);
       return `Learn more about the ${baseName} system`
     },
-    swapBaseLabel() {
+    swapBaseLabel(): string {
       return "Click to swap bases";
+    },
+    topFromLabel(): string {
+      return matchRadixAltLabel(this.fromBase);
+    },
+    topToLabel(): string {
+      return matchRadixAltLabel(this.toBase);
+    },
+    infoBase(): number {
+      return this.infoMode === "to"? this.toBase : this.fromBase;
     }
   },
   watch: {

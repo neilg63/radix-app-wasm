@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "expr-eval": "^2.0.2",
     "primeicons": "^4.1.0",
     "primevue": "^3.3.5",
     "register-service-worker": "^1.7.1",
@@ -23,7 +22,7 @@
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.12",
     "@vue/cli-plugin-router": "^4.5.11",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",
@@ -37,5 +36,17 @@
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
     "vue-jest": "^5.0.0-0"
+  },
+  "vue": {
+    "pwa": {
+      "name": "Radix Front",
+      "iconPaths": {
+        "favicon32": "favicons/favicon-32x32.png",
+        "favicon16": "favicons/favicon-16x16.png",
+        "appleTouchIcon": "./favicons/apple-touch-icon.png",
+        "maskIcon": "favicons/android-chrome-512x512.png",
+        "msTileImage": "favicons/mstile-3410x310.png"
+      }
+    }
   }
 }

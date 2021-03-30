@@ -4,6 +4,11 @@ export interface InfoItem {
   content: string;
 }
 
+export const placeValueNotes = (base = 12, baseName = "") => {
+  return `<h3>Place value notation</h3>
+  <p>In the ${baseName} system fractions may be represented with the place value system just as in the decimal system. Each unit after the decimal separator is 1/${base} of the unit to its left.</p>`;
+};
+
 export const radixInfoItems: InfoItem[] = [
   {
     key: "binary",
@@ -18,7 +23,7 @@ export const radixInfoItems: InfoItem[] = [
   {
     key: "senary",
     radix: 6,
-    content: `<p>As a primary number system, base 6 is rare although it is divisible by the two most useful primary numbers, 2 and 3. It needs more places to represent larger numbers, e.g. 1000 is senary is 216 in decimal and 10000 is 1296. This gives us a greater appreciate of scale when dealing with very high numbers. Like the more common duodecimal or dozenal system, base 6 is not divisible exactly by 5, although 1/5 does yield a pleasant 0.11111 sequence.</p>`,
+    content: `<p>As a primary number system, base 6 is rare although it is divisible by the two most useful primary numbers, 2 and 3. It needs more places to represent larger numbers, e.g. 1000 is senary is 216 in decimal and 10000 is 1296. This gives us a greater appreciation of scale when dealing with very high numbers. Like the more common duodecimal or dozenal system, base 6 is not divisible exactly by 5, although 1/5 does yield a pleasant 0.11111 sequence.</p>`,
   },
   {
     key: "septenary",
@@ -38,7 +43,7 @@ export const radixInfoItems: InfoItem[] = [
   {
     key: "duodecimal",
     radix: 12,
-    content: `<p>If we had 6 digits on each hand, we may well have standardised on dozenal or duodecimal notation.</p><p>This numeric base requires us only to memorise two more base units and is exactly divisible by 3 and 4, although not by 5.</p><p>Many common decimal approximations such as 1%, 5% or 10% assume that nature aligns itself with the number of digits (4 fingers and 1 thumb) on each hand.</p><p>If our primary number system were based on twelves, then other fractions such as 1/6, 1/12, 1/24 or 1/144 would be rounder numbers e.g. 0.2, 0.1, 0.06 and 0.01. Rather than percent, we would use per-gross (an older term for a dozen dozens) to 1 pergross would be 1/144 in decimal. However, exact divisibility by 5 still comes in handy. Unfortunately this is represented by a recurrent sequence starting with 0·2497˙ . Large numbers would require progressivelu fewer characters, e.g. 1 billion in decimal would be 23ðð93 854.</p>`,
+    content: `<p>If we had 6 digits on each hand, we may well have standardised on dozenal or duodecimal notation.</p><p>This numeric base requires us only to memorise two more base units and is exactly divisible by 3 and 4, although not by 5.</p><p>Many common decimal approximations such as 1%, 5% or 10% assume that nature aligns itself with the number of digits (4 fingers and 1 thumb) on each hand.</p><p>If our primary number system were based on twelves, then other fractions such as 1/6, 1/12, 1/24 or 1/144 would be rounder numbers e.g. 0.2, 0.1, 0.06 and 0.01. Rather than percent, we would use per-gross (an older term for a dozen dozens) to 1 pergross would be 1/144 in decimal. However, exact divisibility by 5 still comes in handy. Unfortunately this is represented by a recurrent sequence starting with <em>0·2497˙</em> . Large numbers would require progressively fewer characters, e.g. 1 billion in decimal would be 23ðð93 854.</p>`,
   },
   {
     key: "tetradecimal",

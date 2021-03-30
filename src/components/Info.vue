@@ -6,7 +6,8 @@
 
 <script lang="ts">
 import { defineComponent} from 'vue';
-import { radixInfoItems } from '@/settings/info';
+import { radixInfoItems, placeValueNotes } from '@/settings/info';
+import { matchRadixAltLabel } from '@/settings/options';
 
 export default defineComponent({
   name: 'Info',
@@ -23,7 +24,9 @@ export default defineComponent({
   computed: {
     content(): string {
       const item = radixInfoItems.find(item => item.radix === this.base);
-      return item instanceof Object? item.content : "";
+      const label = matchRadixAltLabel(this.base);
+      const extra = this.base === 10 ? "" : placeValueNotes(this.base, label);
+      return item instanceof Object? item.content + extra : "";
     },
     extraClasses(): string[] {
       const cls = [['radix', this.base].join('-')];

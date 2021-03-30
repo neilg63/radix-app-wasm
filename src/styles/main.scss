@@ -45,10 +45,20 @@ html {
     .content {
       padding: 1em;
       text-align: left;
+      h3,
+      p {
+        margin-block-start: 0;
+        margin-block-end: 0;
+        padding: 0;
+        margin: 0.5em 0 0.25em 0;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
     @media (min-width: $min-desktop-width) {
-      left: calc(50vw - 400px);
-      right: calc(50vw - 400px);
+      left: calc(50vw - 450px);
+      right: calc(50vw - 450px);
       top: 8em;
     }
   }
@@ -328,6 +338,147 @@ body {
     }
     a {
       text-decoration: none;
+    }
+  }
+}
+
+.keypad,
+.keypad .inner {
+  display: flex;
+}
+
+.keypad {
+  flex-flow: column nowrap;
+
+  .key-set {
+    display: grid;
+    justify-content: center;
+    button {
+      justify-content: center;
+      align-items: center;
+      margin: 0.125em;
+    }
+  }
+
+  .brackets {
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0.25em;
+  }
+
+  .core-keys {
+    grid-template-columns: 1fr 1fr;
+    max-width: 15em;
+  }
+
+  &.cols-3 {
+    .core-keys {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  &.cols-4 {
+    .core-keys {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    &.radix-6 {
+      .number-0 {
+        grid-column: 2 / span 2;
+      }
+    }
+  }
+  &.cols-5 {
+    .core-keys {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+  }
+  &.cols-6 {
+    .core-keys {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+  }
+
+  &.v-large {
+    .core-keys button {
+      font-size: 1.33em;
+    }
+  }
+
+  &.large {
+    .core-keys button {
+      font-size: 1.2em;
+    }
+  }
+
+  &.m-large {
+    .core-keys button {
+      font-size: 1.1em;
+    }
+  }
+
+  &.m-small {
+    .core-keys button {
+      font-size: 0.9em;
+    }
+  }
+
+  &.small {
+    .core-keys button {
+      font-size: 0.8em;
+    }
+  }
+  &.op-vertical {
+    .inner {
+      flex-flow: row nowrap;
+    }
+    max-width: 11.75em;
+    .core-operators {
+      grid-template-columns: 1fr;
+    }
+    &.radix-20 {
+      max-width: 16em;
+    }
+    &.radix-30 {
+      max-width: 16em;
+    }
+    &.radix-36 {
+      max-width: 18em;
+    }
+  }
+
+  &.op-horizontal {
+    .inner {
+      flex-flow: column nowrap;
+    }
+    max-width: 15em;
+    .core-operators {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      .equals {
+        grid-column: 1 / span 5;
+      }
+    }
+  }
+
+  &.radix-7 {
+    button.equals {
+      grid-column: 1 / span 4;
+    }
+  }
+  &.radix-8,
+  &.radix-16,
+  &.radix-12 {
+    button.equals {
+      grid-column: 2 / span 3;
+    }
+  }
+  &.radix-20,
+  &.radix-30 {
+    button.equals {
+      grid-column: 2 / span 4;
+    }
+  }
+  &.radix-36 {
+    button.equals {
+      grid-column: 2 / span 5;
     }
   }
 }

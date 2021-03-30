@@ -1,7 +1,8 @@
 import {
-  convertToDozenalNotation,
+  buildBasePattern,
   sanitizeRadixSource,
   truncateRadix,
+  smartConvertNotation,
 } from "@/services/funcs";
 
 const FRAC_PRECISION = 1024 * 256;
@@ -78,18 +79,48 @@ export class RadixEngine {
           sourceStr
         )
       : "-";
-    switch (toBase) {
-      case 12:
-        return this.applyDozenalNotation ? convertToDozenalNotation(str) : str;
-      default:
-        return str;
-    }
+    return smartConvertNotation(str, toBase);
   }
 
   toDec(source = "", radix = 10): number {
+    const decExpr = this.translateBaseNumbers(
+      sanitizeRadixSource(source, radix),
+      radix
+    );
+    return this.loaded ? this.module.expr_to_f64(decExpr) : 0;
+  }
+
+  numToDec(source = "", radix = 10): number {
     return this.loaded
       ? this.module.radix_to_decimal(sanitizeRadixSource(source, radix), radix)
       : 0;
+  }
+
+  parseRadix(expr: string, base = 12): number {
+    const decExpr = sanitizeRadixSource(expr, base);
+    return this.module.expr_to_radix(decExpr, 10);
+  }
+
+  translateBaseNumbers(expr: string, base = 12) {
+    const pattern = buildBasePattern(base);
+    const matches = expr.match(pattern);
+    let out = expr;
+    if (matches instanceof Array && matches.length > 0) {
+      matches.forEach((m) => {
+        try {
+          const newVal = this.numToDec(m.toString(), base);
+          const matchRgx = new RegExp("\\b" + m.toString() + "\\b", "i");
+          out = out.replace(matchRgx, newVal.toString());
+        } catch (e) {
+          console.log(m.toString(), base, e);
+        }
+      });
+    }
+    return out;
+  }
+
+  parseExpr(expr: string): number {
+    return this.module.expr_to_f64(expr);
   }
 
   toFrac(num: number, precision = 4096): FracParts {

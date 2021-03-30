@@ -50,6 +50,44 @@ export const matchRadixAltLabel = (base: number) => {
   }
 };
 
+export const operators = [
+  {
+    symbol: "+",
+    key: "add",
+  },
+  {
+    symbol: "-",
+    key: "subtract",
+  },
+  {
+    symbol: "*",
+    key: "multiply",
+  },
+  {
+    symbol: "/",
+    key: "divide",
+  },
+  {
+    symbol: "^",
+    key: "power",
+  },
+];
+
+export const groupKeys = [
+  {
+    key: "paren-open",
+    symbol: "(",
+  },
+  {
+    key: "clear",
+    symbol: "Cl",
+  },
+  {
+    key: "paren-close",
+    symbol: ")",
+  },
+];
+
 export const matchRadixAbbr = (base: number) => {
   switch (base) {
     case 2:

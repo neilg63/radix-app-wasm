@@ -1,5 +1,4 @@
 import { RadixEngine } from "@/engine/radix";
-import { Parser } from "expr-eval";
 
 const buildAlphaNumBasePatternStr = (base = 12) => {
   const lastDigit = base < 11 ? base - 1 : 9;
@@ -23,6 +22,28 @@ export const buildBasePatternStr = (base = 12) => {
     : buildPairedBasePatternStr(base);
 };
 
+const matchUnitChar = (num: number) => {
+  return num < 10 ? num.toString() : String.fromCharCode(97 + num - 10);
+};
+
+export const buildUnitSet = (base: number) => {
+  const numItems = base <= 36 ? base : 10;
+  const chars: string[] = [];
+  for (let i = 0; i < numItems; i++) {
+    chars.push(matchUnitChar(i));
+  }
+  return chars;
+};
+
+export const buildUpperUnitSet = (base: number) => {
+  const numItems = base <= 36 ? 0 : Math.ceil(base / 10);
+  const chars: string[] = [];
+  for (let i = 0; i < numItems; i++) {
+    chars.push(matchUnitChar(i + 10));
+  }
+  return chars;
+};
+
 export const buildBasePattern = (base = 12) => {
   return RegExp("\\b(" + buildBasePatternStr(base) + ")\\b", "gi");
 };
@@ -34,7 +55,7 @@ const isValidExpr = (expr: string) => {
     const numClosing = (expr.match(/\)/g) || []).length;
     valid = numOpening === numClosing;
   }
-  return valid;
+  return valid && !/\/\s*0\b/.test(expr);
 };
 const sanitizeExpr = (expr: string) => {
   return expr
@@ -45,16 +66,6 @@ const sanitizeExpr = (expr: string) => {
     .trim();
 };
 
-const parseExpr = (expr: string) => {
-  let out = 0;
-  try {
-    out = Parser.evaluate(expr);
-  } catch (e) {
-    console.log(e);
-  }
-  return out;
-};
-
 export const evaluateExpression = (
   expr: string,
   base = 12,
@@ -62,21 +73,9 @@ export const evaluateExpression = (
 ) => {
   let out = sanitizeExpr(expr);
   if (base !== 10) {
-    const pattern = buildBasePattern(base);
-    const matches = expr.match(pattern);
-    if (matches instanceof Array && matches.length > 0) {
-      matches.forEach((m) => {
-        try {
-          const newVal = engine.toDec(m.toString(), base);
-          const matchRgx = new RegExp("\\b" + m.toString() + "\\b", "i");
-          out = out.replace(matchRgx, newVal.toString());
-        } catch (e) {
-          console.log(m.toString(), base, e);
-        }
-      });
-    }
+    out = engine.translateBaseNumbers(expr, base);
   }
-  return isValidExpr(out) ? parseExpr(out) : 0;
+  return isValidExpr(out) ? engine.parseRadix(out, base) : 0;
 };
 
 export const randomSourceString = () => {
@@ -99,6 +98,37 @@ export const randomSourceString = () => {
 
 export const convertToDozenalNotation = (radixStr: string) => {
   return radixStr.replace(/[ad]/gi, "ð").replace(/[be]/gi, "ɛ");
+};
+
+export const convertToHexagesimalNotation = (radixStr: string) => {
+  const rgx = /\b([0-5])([0-9])\b/gi;
+  const ms = radixStr.match(rgx);
+
+  if (ms instanceof Array) {
+    for (const m of ms) {
+      const dec = m.length > 1 ? m.substring(0, 1) : "";
+      const unit = m.length > 1 ? m.substring(1, 2) : m.substring(0, 1);
+      const decInt = dec.length > 0 ? parseInt(dec, 10) : 0;
+      const decPart = String.fromCharCode(97 + decInt);
+      const rgx = new RegExp("\\b" + m + "\\b", "gi");
+      const repl = [decPart, unit].join("");
+
+      console.log(rgx, repl, unit);
+      radixStr = radixStr.replace(rgx, repl);
+    }
+  }
+  return radixStr;
+};
+
+export const smartConvertNotation = (radixStr: string, base = 12) => {
+  switch (base) {
+    case 12:
+      return convertToDozenalNotation(radixStr);
+    case 60:
+      return convertToHexagesimalNotation(radixStr);
+    default:
+      return radixStr;
+  }
 };
 
 export const convertFromDozenalNotation = (radixStr: string) => {
@@ -129,9 +159,9 @@ export const convertToAplhanumHexavigNotation = (radixStr: string) => {
 export const sanitizeRadixSource = (source: string, radix = 12) => {
   switch (radix) {
     case 12:
-      return convertFromDozenalNotation(source);
+      return convertFromDozenalNotation(source).trim();
     default:
-      return source;
+      return source.trim();
   }
 };
 
